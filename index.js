@@ -7,30 +7,25 @@ function sleep(ms) {
 }
 
 async function parse_artists() {
-    
-}
-
-async function parse_albums() {
-    let album_progress = 0;
-    for (let i = 0; i < Object.keys(albums).length; i += 20) {
+    let artist_progress = 0;
+    let size = 50;
+    for (let i = 0; i < Object.keys(artists).length; i += size) {
         await sleep(50);
         $.ajax({
-            url: 'https://api.spotify.com/v1/albums',
+            url: 'https://api.spotify.com/v1/artists',
             headers: {'Authorization': 'Bearer ' + token},
-            data: {ids: Object.keys(albums).slice(i, i+20).join()},
+            data: {ids: Object.keys(artists).slice(i, i+size).join()},
             error: function(xhr, status, e) {
-                console.log('failed to get albums: (' + xhr.status + ') ' + e);
+                console.log('failed to get artists: (' + xhr.status + ') ' + e);
             },
             success: function(data) { 
-                for (let k = 0; k < data.albums.length; k++) {
-                    console.log(data.albums[k]);
-                    albums[data.albums[k].id].genres = data.albums[k].genres
+                for (let k = 0; k < data.artists.length; k++) {
+                    artists[data.artists[k].id].genres = data.artists[k].genres
                 }
-                album_progress += data.albums.length;
-                $('#album-progress').text(album_progress);
+                artist_progress += data.artists.length;
+                $('#artist-progress').text(artist_progress);
             }
         });
-        return;
     }
 }
 
