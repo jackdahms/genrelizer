@@ -1,5 +1,6 @@
 # genrelizer
-/ˈZHänrəlīzər/ Create genre playlists from your Spotify liked songs
+/ˈZHänrəlīzər/ Create genre playlists from your Spotify liked songs.  
+Of course, this is totally made obsolete by [this website from a Spotify researcher](http://organizeyourmusic.playlistmachinery.com/#).
 
 ### TODO
 1. Handle access denied (https://developer.spotify.com/documentation/general/guides/authorization-guide/#implicit-grant-flow)

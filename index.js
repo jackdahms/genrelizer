@@ -1,9 +1,13 @@
 let tracks = [];
-let albums = {};
+let artists = {};
 let token = null;
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function parse_artists() {
+    
 }
 
 async function parse_albums() {
@@ -30,22 +34,24 @@ async function parse_albums() {
     }
 }
 
-// For each item in a /me/tracks response, add it to the tracks list and check if we found its album already.
-// If not, add the album to the albums dict and go look up its genre(s)
+// For each item in a /me/tracks response, add it to the tracks list and check if we found its artists already.
+// If not, add the artists to the artists dict and go look up its genre(s)
 function parse_page(items) {
     items.forEach(function(item) {
         tracks.push(item.track);
-        let album = item.track.album;
-        if (!(album.id in albums)) {
-            albums[album.id] = album;
-            $('#album-total').text(Object.keys(albums).length + ' albums');
+        let artists = item.track.artists;
+        for (artist in artists) {
+            if (!(artist.id in artists)) {
+                artists[artist.id] = artist;
+                $('#artist-total').text(Object.keys(artists).length + ' artists');
+            }
         }
         $('#progress').text(tracks.length);
     });
 }
 
 // Go through all of user's liked songs, check for unique albums and save track data
-let parse_library = async function() {
+async function parse_library() {
     var total = null
 
     // Get the first page non-async
@@ -85,8 +91,8 @@ let parse_library = async function() {
         await sleep(200);
     }
 
-    parse_albums();
-};
+    parse_artists();
+}
 
 $(function() {
 
