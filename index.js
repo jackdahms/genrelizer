@@ -34,8 +34,8 @@ async function parse_artists() {
 function parse_page(items) {
     items.forEach(function(item) {
         tracks.push(item.track);
-        let artists = item.track.artists;
-        for (artist in artists) {
+        for (artist_key in item.track.artists) {
+            let artist = item.track.artists[artist_key];
             if (!(artist.id in artists)) {
                 artists[artist.id] = artist;
                 $('#artist-total').text(Object.keys(artists).length + ' artists');
@@ -45,7 +45,7 @@ function parse_page(items) {
     });
 }
 
-// Go through all of user's liked songs, check for unique albums and save track data
+// Go through all of user's liked songs, check for unique artists and save track data
 async function parse_library() {
     var total = null
 
